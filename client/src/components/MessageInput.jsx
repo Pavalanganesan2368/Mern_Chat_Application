@@ -3,8 +3,8 @@ import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import { Image, Send, X, Smile, Loader2, Paperclip } from "lucide-react";
 import toast from "react-hot-toast";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
+import EmojiPicker from "emoji-picker-react";
+import { useThemeStore } from "../store/useThemeStore";
 
 const MessageInput = () => {
   const [text, setText] = useState("");
@@ -17,6 +17,7 @@ const MessageInput = () => {
 
   const { sendMessage, selectedUser } = useChatStore();
   const { socket } = useAuthStore();
+  const { theme } = useThemeStore();
 
   const handleTyping = useCallback(() => {
     if (socket && selectedUser) {
@@ -88,8 +89,8 @@ const MessageInput = () => {
     }
   };
 
-  const addEmoji = (emoji) => {
-    setText((prev) => prev + emoji.native);
+  const addEmoji = (emojiData) => {
+    setText((prev) => prev + emojiData.emoji);
   };
 
   return (
@@ -116,9 +117,15 @@ const MessageInput = () => {
       {/* Emoji Picker container */}
       {showEmojiPicker && (
         <div className="absolute bottom-24 left-4 z-50 animate-in fade-in zoom-in-95 duration-200 shadow-2xl rounded-2xl overflow-hidden">
-          <Picker data={data} onEmojiSelect={addEmoji} theme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'} />
+          <EmojiPicker
+            theme={theme}
+            onEmojiClick={addEmoji}
+            lazyLoadEmojis={true}
+          />
         </div>
       )}
+
+
 
       {/* Input row */}
       <form onSubmit={handleSendMessage} className="flex items-end gap-2 max-w-5xl mx-auto">
