@@ -8,6 +8,7 @@
     "install-server": "cd server && npm install",
     "install-client": "cd client && npm install",
     "build": "npm run install-server && npm run install-client && cd client && npm run build",
+    "build-client": "npm run install-client && cd client && npm run build",
     "start": "node server/src/index.js",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "dev-server": "cd server && npm run dev",
