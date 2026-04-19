@@ -1,1 +1,1 @@
-# MERN_STACK_CHAT_APPLICATION
+# Mern_Chat_application
